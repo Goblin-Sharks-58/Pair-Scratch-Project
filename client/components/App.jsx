@@ -17,7 +17,7 @@ const App = () => {
             </ul>
         </nav>
         <Routes>
-            <Route path='' element={''} />
+            <Route path='' />
         </Routes>
         
         </Router>
