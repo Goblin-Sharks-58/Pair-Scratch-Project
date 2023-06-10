@@ -7,6 +7,7 @@ import {
     BrowserRouter as Router, Link, Routes,
 } from "react-router-dom";
 import '../styles.scss';
+
 import CreateProfile from './CreateProfile';
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
         <Routes>
             <Route path='/createprofile' element = {<CreateProfile />}/>
         </Routes>
+
         </Router>
         
     )
