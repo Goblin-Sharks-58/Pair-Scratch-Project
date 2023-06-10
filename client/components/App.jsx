@@ -7,10 +7,22 @@ import {
     BrowserRouter as Router, Link, Routes,
 } from "react-router-dom";
 import './styles.scss';
+const App = () => {
+    return (
+        <Router>
+        
+        <nav>
+            <ul>
+                <li><Link to="/">Login</Link></li>
+            </ul>
+        </nav>
+        <Routes>
+            <Route path='' element={} />
+        </Routes>
+        
+        </Router>
+        
+    )
+};
 
-return (
-    <Routes>
-        <Route path='' element={ } />
-    </Routes>
-)
 export default App;
