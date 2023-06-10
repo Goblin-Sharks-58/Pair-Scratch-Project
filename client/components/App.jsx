@@ -6,7 +6,7 @@ import {
     NavLink,
     BrowserRouter as Router, Link, Routes,
 } from "react-router-dom";
-import './styles.scss';
+import '../styles.scss';
 const App = () => {
     return (
         <Router>
@@ -17,7 +17,7 @@ const App = () => {
             </ul>
         </nav>
         <Routes>
-            <Route path='' element={} />
+            <Route path='' element={''} />
         </Routes>
         
         </Router>
