@@ -1,0 +1,1 @@
+//Component to pull up another person's profile for review. Accept button. Reject button.
