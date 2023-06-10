@@ -4,13 +4,25 @@ import {
     RouterProvider,
     Route,
     NavLink,
+    BrowserRouter as Router, Link, Routes,
 } from "react-router-dom";
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import './styles.scss';
-
+const App = () => {
+    
+}
 return (
+    <Router>
+    
+    <nav>
+        <ul>
+            <li><Link to="/">Login</Link></li>
+        </ul>
+    </nav>
     <Routes>
-        <Route path='' element={ } />
+        <Route path='' element={} />
     </Routes>
+    
+    </Router>
+    
 )
 export default App;
