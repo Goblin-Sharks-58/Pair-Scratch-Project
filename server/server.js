@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const path = require('path');
 //const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 const PORT = 3000;
+const userController = require('../UserController')
 
 
 // DB Link:
@@ -13,6 +14,11 @@ const PORT = 3000;
 
 app.use(express.static('client'));
 app.use(express.json());
+
+
+app.post('/', userController.createUser, (req, res) => {
+    res.status(200).json({msg: 'Successfully created User!'});
+});
 
 
 //** 404 handler **//
