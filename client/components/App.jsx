@@ -4,8 +4,8 @@ import {
     RouterProvider,
     Route,
     NavLink,
+    BrowserRouter as Router, Link, Routes,
 } from "react-router-dom";
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import './styles.scss';
 
 return (
