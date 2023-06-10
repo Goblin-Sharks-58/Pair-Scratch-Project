@@ -1,14 +1,18 @@
-import { Client } from 'pg'
+const { Client, Pool } = require('pg')
 
-const client = new Client({
-  host: 'rajje.db.elephantsql.com',
-  port: 5334,
-  database: 'zebscooa',
-  user: 'zebscooa',
-  password: 'TElFom3o4Mk2vb6rqEoTlJvgosRCKfnF',
-});
+const pg_URI = 'postgres://zebscooa:TElFom3o4Mk2vb6rqEoTlJvgosRCKfnF@rajje.db.elephantsql.com/zebscooa';
 
-await client.connect();
+// const client = new Client({
+//   host: 'rajje.db.elephantsql.com',
+//   port: 5334,
+//   database: 'zebscooa',
+//   user: 'zebscooa',
+//   password: 'TElFom3o4Mk2vb6rqEoTlJvgosRCKfnF',
+// });
+
+const pool = new Pool({
+  connectionString: pg_URI
+})
 
 // Tables Created in Database Already:
 
@@ -25,16 +29,23 @@ await client.connect();
 // User Language Table:
 // ** UserID (Foreign Key)
 // ** LanguageID (Foreign Key)
-
 const userController = {
 
     createUser: async (req, res, next) => {
-
+      
+      let client;
       try {
 
-        await client.connect();
+        try {
+          client = await pool.connect();
+          console.log('connected!')
+        } catch(error) {
+          console.log('error connecting, tell me why: ', error)
+          next(error)
+        }
 
         const { firstName, lastName, location } = req.body;
+        console.log('firstName', firstName)
         
         const queryString = `
           INSERT INTO Users (lastName, firstName, location)
@@ -53,37 +64,9 @@ const userController = {
             message: {err: 'Error occured in userController.createUser'}
           });
       } finally {
-        await client.end();
+        if (client) client.release();
       }
     }
-
-      
-
-//       Student.create({firstName, lastName, age})
-//         .then(studentDoc => {
-//           res.locals.student = studentDoc;
-//           return next();
-//         })
-//         .catch(err => {
-//           return next({
-//             log: `Error in userController.createUser:', ${err}`,
-//             message: {err: 'Error occured in userController.createUser'}
-//           });
-//         });
-//     },
-// }
-
-  client.query(query, (err, results) => {
-    if (err){
-      return next(err);
-    }
-    res.locals.people = results.rows;
-    //console.log(res.locals.people);
-    //console.log(res.locals.people);
-    return next();
-  });
-  // console.log(res.locals.people);
-  //return next();
 };
 
 
