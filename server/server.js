@@ -19,7 +19,7 @@ app.post('/', userController.createUser, (req, res, next) => {
 });
 
 //** Get All Users Route **//
-app.get('/api', userController.getUsers, (req, res) => {
+app.get('/allusers', userController.getUsers, (req, res) => {
   res.status(200).json(res.locals.users);
 });
 
