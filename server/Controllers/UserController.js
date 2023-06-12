@@ -51,6 +51,65 @@ CREATE TABLE UserLanguages (
 
 const userController = {
 
+  getMyProfile: async (req, res, next) => {
+
+    let client;
+    try {
+      try {
+        client = await pool.connect();
+        console.log('connected!');
+      } catch (error) {
+        console.log('error connecting, tell me why: ', error)
+        return next(error);
+      }
+
+      const { userid } = req.body;
+      //get user id
+      const queryUserString = `
+      SELECT * FROM users
+      INNER JOIN userlanguages
+      ON users.userid = userlanguages.userid
+      INNER JOIN languages
+      ON languages.languageid = userlanguages.languageid
+      WHERE users.userid = $1;
+     `;
+
+      const valueID = [userid];
+      const userLanguages = await client.query(queryUserString, valueID);
+      console.log('userLanguages Response Object', userLanguages);
+
+      const { rows } = userLanguages;
+      const { firstname, lastname, location, experience } = rows[0];
+
+      const userObj = {
+        userid,
+        firstname,
+        lastname,
+        location,
+        experience
+      }
+
+      for (const object of rows) {
+        if (!userObj['languages']) userObj['languages'] = [object.language];
+        else userObj['languages'].push(object.language);
+      }
+
+      res.locals.user = userObj;
+
+      return next();
+
+
+    } catch (err) {
+      return next({
+        log: `Error in userController.getMyProfile:', ${err}`,
+        message: { err: 'Error occured in userController.getMyProfile' }
+      });
+    } finally {
+      if (client) client.release();
+    }
+
+  },
+
   getUsers: async (req, res, next) => {
 
     let client;
