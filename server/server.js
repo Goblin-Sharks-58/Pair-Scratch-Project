@@ -13,10 +13,15 @@ app.use(express.static('client'));
 app.use(express.json());
 
 
+//** Post Route **//
 app.post('/', userController.createUser, (req, res, next) => {
   res.status(200).json({ msg: 'Successfully created User!' });
 });
 
+//Get Route
+app.get('/api', userController.getUsers, (req, res) => {
+  res.status(200).json(res.locals.users);
+});
 
 //** 404 handler **//
 app.use('*', (req, res) => {

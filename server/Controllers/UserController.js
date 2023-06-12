@@ -51,6 +51,82 @@ CREATE TABLE UserLanguages (
 
 const userController = {
 
+  getUsers: async (req, res, next) => {
+
+    let client;
+
+    try {
+      try {
+        client = await pool.connect();
+        console.log('connected!');
+      } catch (error) {
+        console.log('error connecting, tell me why: ', error)
+        return next(error);
+      }
+      //get all users 
+      const queryStringUserID = `
+      SELECT * FROM Users
+      `;
+      //join languages with users
+      // const queryStringLanguages = `
+      // SELECT UserID
+      // FROM Users
+      // INNER JOIN; 
+      // `;
+
+      // userid, firstname, lastname, location, experience are object keys in rows attribute of response
+      const allUsersResponse = await client.query(queryStringUserID);
+
+      // console.log('get users response: ', allUsersResponse.rows);
+
+
+      // get their languages as array
+      // and add it to that current object as 'languages'
+
+      const { rows } = allUsersResponse;
+
+      // iterate
+      // for each object
+      for (const userObject of rows) {
+
+        // query that user
+        const queryUserString = `
+          SELECT * FROM users
+          INNER JOIN userlanguages
+          ON users.userid = userlanguages.userid
+          INNER JOIN languages
+          ON languages.languageid = userlanguages.languageid
+          WHERE users.userid = $1;
+         `;
+
+        const valueID = [userObject.userid];
+        const userLanguages = await client.query(queryUserString, valueID);
+        // console.log('userLanguages Response Object', userLanguages.rows);
+
+        for (const object of userLanguages.rows) {
+          if (!userObject['languages']) userObject['languages'] = [object.language];
+          else userObject['languages'].push(object.language);
+        }
+
+      }
+
+      res.locals.users = rows;
+
+      return next();
+
+
+    } catch (err) {
+      return next({
+        log: `Error in userController.getUsers:', ${err}`,
+        message: { err: 'Error occured in userController.getUsers' }
+      });
+    } finally {
+      if (client) client.release();
+    }
+
+  },
+
+  // Create User Middleware
   createUser: async (req, res, next) => {
 
     let client;
@@ -61,12 +137,13 @@ const userController = {
         console.log('connected!');
       } catch (error) {
         console.log('error connecting, tell me why: ', error)
-        next(error);
+        return next(error)
       }
-
 
       const { firstName, lastName, location, experience, languages } = req.body;
 
+      // console.log('languages object', languages)
+      //convert object received into an array
       languages.forEach((obj, i) => languages[i] = obj.label); // get only languages 
       console.log('languages', languages);
 
@@ -109,6 +186,7 @@ const userController = {
         SELECT Language FROM Languages;
         `
         const languageDB = await client.query(queryStringLanguages);
+        console.log('languageDB Response Object', languageDB);
         const languageDBObj = {}; // list of the current languages w/ index as value
         languageDB.rows.forEach((lang, idx) => languageDBObj[lang.language] = idx + 1);
         console.log('languageDB: ', languageDBObj, 'length: ', Object.keys(languageDBObj).length);
