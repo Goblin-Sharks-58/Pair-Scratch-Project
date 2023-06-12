@@ -4,14 +4,14 @@ const path = require('path');
 //const mongoose = require('mongoose');
 const PORT = 3000;
 const userController = require('./Controllers/UserController')
-const cookieParser = require('cookie-parser');
+//const cookieParser = require('cookie-parser');
 
 // DB Link:
 // postgres://zebscooa:TElFom3o4Mk2vb6rqEoTlJvgosRCKfnF@rajje.db.elephantsql.com/zebscooa
 
 app.use(express.static('client'));
 app.use(express.json());
-app.use(cookieParser());
+//app.use(cookieParser());
 
 //** Post Route **//
 app.post('/', userController.createUser, (req, res, next) => {
