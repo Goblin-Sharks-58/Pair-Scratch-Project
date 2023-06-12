@@ -5,6 +5,7 @@ const path = require('path');
 const PORT = 3000;
 const userController = require('./Controllers/UserController')
 const cookieParser = require('cookie-parser');
+const cookieController = require('./Controllers/CookieController');
 
 // DB Link:
 // postgres://zebscooa:TElFom3o4Mk2vb6rqEoTlJvgosRCKfnF@rajje.db.elephantsql.com/zebscooa
@@ -12,6 +13,11 @@ const cookieParser = require('cookie-parser');
 app.use(express.static('client'));
 app.use(express.json());
 app.use(cookieParser());
+
+//set cookie
+app.get('/', cookieController.setCookie, (req, res) => {
+  return res.status(200).send('cookieTest')
+})
 
 //** Post Route **//
 app.post('/', userController.createUser, (req, res, next) => {
