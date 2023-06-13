@@ -4,20 +4,19 @@ const path = require('path');
 //const mongoose = require('mongoose');
 const PORT = 3000;
 const userController = require('./Controllers/UserController')
-const cookieParser = require('cookie-parser');
-const cookieController = require('./Controllers/CookieController');
+//const cookieParser = require('cookie-parser');
 
 // DB Link:
 // postgres://zebscooa:TElFom3o4Mk2vb6rqEoTlJvgosRCKfnF@rajje.db.elephantsql.com/zebscooa
 
 app.use(express.static('client'));
 app.use(express.json());
-app.use(cookieParser());
+//app.use(cookieParser());
 
 //set cookie
-app.get('/', cookieController.setCookie, (req, res) => {
-  return res.status(200).send('cookieTest')
-})
+// app.get('/', cookieController.setCookie, (req, res) => {
+//   return res.status(200).send('cookieTest')
+// })
 
 //** Post Route **//
 app.post('/', userController.createUser, (req, res, next) => {
@@ -25,7 +24,7 @@ app.post('/', userController.createUser, (req, res, next) => {
 });
 
 //** Get All Users Route **//
-app.get('/api', userController.getUsers, (req, res) => {
+app.get('/allusers', userController.getUsers, (req, res) => {
   res.status(200).json(res.locals.users);
 });
 

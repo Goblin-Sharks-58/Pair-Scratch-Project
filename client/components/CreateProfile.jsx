@@ -1,5 +1,6 @@
 //Create a profile page. Add attributes and characteristics: name, years of experience, languages, etc.?
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+//import {useNavigate} from 'react-router-dom';
 import Select from 'react-select';
 import axios from 'axios';
 // import LanguageOptions from './LanguagesOptions';
@@ -20,13 +21,13 @@ const CreateProfile = () => {
   const [location, setLocation] = useState('');
   const [experience, setExperience] = useState('');
   const [languages, setLanguages] = useState('');
-
+  const [userID, setUserID] = useState('');
+  //const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     //prevents the default on submit behavior
     e.preventDefault();
     const data = { firstName, lastName, location, experience, languages };
-
 
 
     fetch('http://localhost:8080', {
@@ -40,23 +41,31 @@ const CreateProfile = () => {
     })
       .then(response => {
         response.json();
-        console.log('this is my fetch response', response)
+        setUserID(response.userID);
+        // console.log('this is my fetch response', response);
+        //console.log('this is my userID', userID)
+        
       })
       .catch(err => { console.log('ERR', err) })
+  }
 
 
-    // try{
-    //   await axios.patch('/createprofile', { data })
-    //   next();
-    // } catch (err){
-    //  next(err);
-    // }
-    console.log(data);
-  };
+// if (userID !== ''){
+//   useEffect(() => {
+   
+//   //   console.log('user ID has been updated to', userID)
+//   //   // navigate({
+//   //   //   pathname: '/myprofile',
+//   //   //   state: {
+//   //   //     response: userID
+//   //   //   }
+//   //   // })
+//   // }, [userID]);
+// }
+
+
 
   return (
-
-
     <form className='create_form' onSubmit={handleSubmit}>
       <label>
         First Name:
@@ -106,9 +115,8 @@ const CreateProfile = () => {
       </div>
       <button type='submit'>Submit Profile</button>
     </form>
-
-
   )
+  
 };
 
 

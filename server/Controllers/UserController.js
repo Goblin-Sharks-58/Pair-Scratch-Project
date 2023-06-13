@@ -206,7 +206,7 @@ const userController = {
       // console.log('languages object', languages)
       //convert object received into an array
       languages.forEach((obj, i) => languages[i] = obj.label); // get only languages 
-      console.log('languages', languages);
+      //console.log('languages', languages);
 
       //// Inserting New User from Create Profile component
 
@@ -235,8 +235,8 @@ const userController = {
       // const valuesID = ['Will', 'Sentance']; // testing string
 
       const userID = await client.query(queryStringUserID, valuesID); // Obtain ID of new User
-      console.log('userID object', userID);
-      console.log(`user ID for ${firstName} is: ${userID.rows[0].userid}`);
+      //console.log('userID object', userID);
+      //console.log(`user ID for ${firstName} is: ${userID.rows[0].userid}`);
 
 
       //// Insert into Junction Table
@@ -250,17 +250,17 @@ const userController = {
         console.log('languageDB Response Object', languageDB);
         const languageDBObj = {}; // list of the current languages w/ index as value
         languageDB.rows.forEach((lang, idx) => languageDBObj[lang.language] = idx + 1);
-        console.log('languageDB: ', languageDBObj, 'length: ', Object.keys(languageDBObj).length);
+        //console.log('languageDB: ', languageDBObj, 'length: ', Object.keys(languageDBObj).length);
 
         let languageID;
 
         if (languageDBObj[language]) {
-          console.log(languageDBObj[language])
+          //console.log(languageDBObj[language])
           languageID = languageDBObj[language];
 
         } else {
 
-          console.log('no language in database currently')
+          //console.log('no language in database currently')
 
           // INSERT New Language and Get New ID
           const queryStringNewLang = `
@@ -272,11 +272,11 @@ const userController = {
           const currLang = [`${language}`];
           languageID = await client.query(queryStringNewLang, currLang); // response object
           languageID = languageID.rows[0].languageid; // only language id val
-          console.log('languageid from query string', languageID);
+          //console.log('languageid from query string', languageID);
 
         };
 
-        console.log('language id before junction', languageID);
+        //console.log('language id before junction', languageID);
 
         const queryStringJunction = `
         INSERT INTO UserLanguages (userid, languageid)
@@ -285,7 +285,7 @@ const userController = {
         const junctionValues = [userID.rows[0].userid, languageID];
 
         const junctionResult = await client.query(queryStringJunction, junctionValues);
-        console.log('result of junction: ', junctionResult);
+        //console.log('result of junction: ', junctionResult);
 
 
       }
