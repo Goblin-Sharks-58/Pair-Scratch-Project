@@ -24,7 +24,7 @@ const MyProfile = () => {
     <>
       <h1>hello</h1>
       <div>
-        {resultObj}
+        Created a profile!
       </div>
     </>
 

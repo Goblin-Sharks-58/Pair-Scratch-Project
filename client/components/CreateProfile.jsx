@@ -1,6 +1,6 @@
 //Create a profile page. Add attributes and characteristics: name, years of experience, languages, etc.?
 import React, { useState, useEffect } from 'react';
-import {useNavigate} from 'react-router-dom';
+//import {useNavigate} from 'react-router-dom';
 import Select from 'react-select';
 import axios from 'axios';
 // import LanguageOptions from './LanguagesOptions';
@@ -22,7 +22,7 @@ const CreateProfile = () => {
   const [experience, setExperience] = useState('');
   const [languages, setLanguages] = useState('');
   const [userID, setUserID] = useState('');
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     //prevents the default on submit behavior
@@ -50,18 +50,18 @@ const CreateProfile = () => {
   }
 
 
-if (userID !== ''){
-  useEffect(() => {
+// if (userID !== ''){
+//   useEffect(() => {
    
-    console.log('user ID has been updated to', userID)
-    navigate({
-      pathname: '/myprofile',
-      state: {
-        response: userID
-      }
-    })
-  }, [userID]);
-}
+//   //   console.log('user ID has been updated to', userID)
+//   //   // navigate({
+//   //   //   pathname: '/myprofile',
+//   //   //   state: {
+//   //   //     response: userID
+//   //   //   }
+//   //   // })
+//   // }, [userID]);
+// }
 
 
 

@@ -13,6 +13,11 @@ app.use(express.static('client'));
 app.use(express.json());
 //app.use(cookieParser());
 
+//set cookie
+// app.get('/', cookieController.setCookie, (req, res) => {
+//   return res.status(200).send('cookieTest')
+// })
+
 //** Post Route **//
 app.post('/', userController.createUser, (req, res, next) => {
   res.status(200).json({ msg: 'Successfully created User!' });
